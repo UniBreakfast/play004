@@ -1,2 +1,2 @@
 # play004
-Basic page module templates
+Basic module templates
