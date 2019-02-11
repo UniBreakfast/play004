@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    * { margin:0;  padding:0;  box-sizing:border-box }
+    body {
+      height: 100vh;
+      font: 1rem sans-serif;
+      padding: 15px;
+    }
+    .scrModal {
+      background: #0004;
+      display: flex;
+      height: 100%;
+    }
+    .scrModal>span {
+      margin: auto;
+      padding: 10px;
+      background: white;
+      border: black 1px solid;
+      text-align: center;
+    }
+    .scrModal>span>p {
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+  </style>
+
+  <title> Modals </title>
+
+</head>
+<body>
+
+  <h1> Modals development test grounds </h1>
+  <div style=display:flex;margin:auto;height:80%>
+    <div style=margin:auto;display:flex;flex-direction:column>
+
+      <span class=ubInput id=labelTop>
+        <label for=inp1>Label:</label><br>
+        <input id=inp1>
+      </span>
+      <button id=btn1> check inp1 </button>
+
+      <span class=ubInput id=labelLeft>
+        <label for=inp2>Label:</label>
+        <input id=inp2>
+      </span>
+      <button id=btn2> check inp2 </button>
+
+      <span class=ubInput id=labelLess>
+        <input id=inp3 placeholder=label>
+      </span>
+      <button id=btn3> check inp3 </button>
+
+      <script src=MODULES/DOMfunctions/modalMsg.js></script>
+      <script>
+
+        const inpVal = inp=> inp.val? inp.val() : inp.value
+
+        btn3.onclick =e=>
+          modalMsg({text: inpVal(inp1)+' '+inpVal(inp2)+' '+inpVal(inp3),
+                    cls: 'scrModal', id: 'scrModal1', w: '50%', e,
+                    el: labelTop.parentNode.parentNode, local: true})
+        btn2.onclick =e=>
+          modalMsg(inpVal(inp1)+' '+inpVal(inp2)+' '+inpVal(inp2))
+
+    </script>
+
+    </div>
+  </div>
+
+</body>
+</html>
