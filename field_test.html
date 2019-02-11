@@ -28,13 +28,14 @@
 
       <script src=MODULES/DOMfunctions/hintBox.js></script>
       <script src=MODULES/DOMfunctions/makeInp.js></script>
+      <script src=MODULES/DOMfunctions/makeBtn.js></script>
       <script src=MODULES/DOMfunctions/inpVal.js></script>
       <script>
 
-        const inpVal2Btn = (inp,btn,val)=> {
-          val=inpVal(inp)
-          btn.innerText = btn.innerText.trim().split(':')[0]+(val? ': '+val:'')
-        }
+        // const inpVal2Btn = (inp,btn,val)=> {
+        //   val=inpVal(inp)
+        //   btn.innerText = btn.innerText.trim().split(':')[0]+(val? ': '+val:'')
+        // }
 
         makeInp({el:form, text:'Login:', elClass:'loginForm', numForId:1,
                  id:'input1', validation: 'login3to32', complaint:
@@ -45,8 +46,18 @@
                  validation:'email', complaint:'That doesn\'t look like '+
                  'a valid E-mail. Try again.'})
         inp2.after(document.createElement('br'))
-        makeInp({el:form, text:'password', compact:true, type:'password'})
+        const {inp:pass} = makeInp({el:form, text:'password', compact:true, type:'password'})
+        pass.setAttribute('name', 'pwd')
+        console.dir(document.forms[0].pwd)
 
+        makeBtn({el:form, text:'Sign Up', cls:'formBtn', id:'regBtn',
+                 func:(e,{login,mail,pass})=>
+                   console.log(inpVal(login),inpVal(mail),inpVal(pass))},
+                 {login:input1,mail:inp2,pass})
+        makeBtn({el:form, text:'Sign In', cls:'formBtn', id:'loginBtn',
+                 func:(e,{login,mail,pass})=>
+                   console.log(inpVal(login),inpVal(mail),inpVal(pass))},
+                 {login:input1,mail:inp2,pass})
 
       </script>
 
