@@ -24,7 +24,7 @@
 
   <h1> Field development test grounds </h1>
   <div style=display:flex;margin:auto;height:80%>
-    <div style=margin:auto;display:flex;flex-direction:column>
+    <form style=margin:auto;display:flex;flex-direction:column>
 
       <span class=ubInput id=labelTop>
         <label for=inp1>Label:</label><br>
@@ -43,7 +43,7 @@
       </span>
       <button id=btn3> check inp3 </button>
 
-      <script src=play004/MODULES/DOMfunctions/hintBox.js></script>
+      <script src=MODULES/DOMfunctions/hintBox.js></script>
       <script>
 
 
@@ -73,30 +73,36 @@
         inp2.val = makeVal('email', 'That doesn\'t look like a valid E-mail. Try again.')
         inp3.val = makeVal('startConf', 'Only an integer from 2 to 10.')
 
-        btn1.onclick =()=> inpVal2Btn(inp1,btn1)
-        btn2.onclick =()=> inpVal2Btn(inp2,btn2)
-        btn3.onclick =()=> inpVal2Btn(inp3,btn3)
+        btn1.onclick =e=> e.preventDefault()==inpVal2Btn(inp1,btn1)
+        btn2.onclick =e=> inpVal2Btn(inp2,btn2)==e.preventDefault()
+        btn3.onclick =e=> inpVal2Btn(inp3,btn3)==e.preventDefault()
 
 
-        function makeInp(el, num, label, cls) {
-          const inpGr = document.createElement('span'),
-                lbl = document.createElement('label'),
-                inp = document.createElement('input')
-          inpGr.id = 'inpGr'+num
-          inp.id = 'inp'+num
-          lbl.id = 'lbl'+num
-          lbl.setAttribute('for', 'inp'+num)
-          lbl.innerText = label
-          inpGr.classList.add('inpGr')
-          if (cls) inpGr.classList.add(cls)
-          inpGr.append(lbl, inp)
-          el.append(inpGr)
-          inp.val = makeVal('email', 'That doesn\'t look like a valid E-mail. Try again.')
-          btn3.onclick =()=> inpVal2Btn(inp,btn3)
+        function makeInp(props) {
+          if (typeof props == 'string') var text = props
+          else var {el, text, elClass, numForId, id, type, compact,
+                    validation, complaint} = props
 
+          const inp = document.createElement('input'),
+                lbl = compact? 0: document.createElement('label')
+          if (el && elClass) el.classList.add(elClass)
+          if (id || numForId) {
+            inp.id = id || 'inp'+numForId
+            lbl? lbl.setAttribute('for', id || 'inp'+numForId) :0
+          }
+          if (lbl) {
+            if (numForId) lbl.id = 'lbl'+numForId
+            lbl.innerText = text
+            el.append(lbl)
+          }
+          else inp.setAttribute('placeholder', text)
+          el.append(inp)
 
+          if (validation) inp.val = makeVal(validation, complaint)
 
+          return {lbl, inp}
         }
+
         makeInp(labelTop.parentNode, 4, 'Pa:', 'ubInput')
 
 
